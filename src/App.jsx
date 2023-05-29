@@ -23,7 +23,7 @@ function App() {
   const [nombreRegistro, setNombreRegistro] = useState('');
   const [passRegistro, setPassRegistro] = useState('');
   const [sesionIniciada, setSesionIniciada] = useState(false);
-
+  const [mensajeValidacion, setMensajeValidacion] = useState('');
   useEffect(() => {
     socket.on('connect', () => {
       setIsConnected(true);
@@ -66,17 +66,27 @@ function App() {
               'Content-Type': 'application/json'
             },
           })
-          if(!response){
-            console.log("error")
+          let nombre = await response.text()
+          if(nombre !== ''){
+            setTimeout(() => {
+              console.log(nombre)
+              setNombreUsuario(nombre)
+              setSesionIniciada(true)
+            }, 2000);
+            setMensajeValidacion('Inicio Exitoso, Bienvenido: '+nombre)
           }else{
-            let nombre = await response.text()
-            console.log(nombre)
-            setNombreUsuario(nombre)
-            setSesionIniciada(true)
+            console.log('error al iniciar sesion')
+            setMensajeValidacion('Credenciales incorrectas')
+            setSesionIniciada(false)
           }
         }catch(error){
           console.log(error)
         }
+    }else{
+      setMensajeValidacion('Debe ingresar todos los campos')
+      setTimeout(() => {
+        setMensajeValidacion('')
+      }, 1500);
     }  
   };
 
@@ -182,6 +192,7 @@ function App() {
         />
         <button onClick={handleIniciarSesion}>Iniciar Sesion</button>
         <button onClick={handleRegistrarseTrue}>Registrarse</button>
+        <p>{mensajeValidacion}</p>
       </div>
     );
   }
