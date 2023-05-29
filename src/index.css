@@ -91,20 +91,8 @@ button {
   border-style: none;
   border-radius: 10px;
 }
-.enviarButton {
-  height: 40px;
-  background: none;
-  text-align: center;
-}
-.enviarIcono{
-  margin: auto;
-
-}
 .controlMensaje{
   margin-bottom: 10px;
-}
-.mensajes{
-  
 }
 .cajaMensajes{
   background: darkgray;
