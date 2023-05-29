@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef} from 'react';
 import './App.css';
 import { io } from 'socket.io-client';
 import { ULMensajes, LiMensaje } from './components/Mensajes';
@@ -6,6 +6,7 @@ import { ULMensajes, LiMensaje } from './components/Mensajes';
 const socket = io('https://chat-xpress.onrender.com');
 
 function App() {
+  const cajaMensajesRef = useRef(null)
   const [mensajes, setMensajes] = useState(() => {
     const mensajesGuardados = localStorage.getItem('mensajes');
     return mensajesGuardados ? JSON.parse(mensajesGuardados) : [];
@@ -49,12 +50,20 @@ function App() {
     localStorage.setItem('mensajes', JSON.stringify(mensajes));
   }, [mensajes]);
 
+  useEffect(() => {
+    if (cajaMensajesRef.current) {
+      cajaMensajesRef.current.scrollTop = cajaMensajesRef.current.scrollHeight;
+    }
+  }, [mensajes]);
+
   const enviarMensaje = () => {
-    socket.emit('chat_message', {
-      usuario: nombreUsuario,
-      mensaje: nuevoMensaje,
-    });
-    setNuevoMensaje('');
+    if(nuevoMensaje !== ''){
+      socket.emit('chat_message', {
+        usuario: nombreUsuario,
+        mensaje: nuevoMensaje,
+      });
+      setNuevoMensaje('');
+    }
   };
   
   const handleIniciarSesion = async() => {
@@ -104,6 +113,7 @@ function App() {
     setPassword('')
     setMensajes([])
     setSesionIniciada(false)
+    setMensajeValidacion('')
   }
 
   const handleRegistrarse = async() => {
@@ -133,21 +143,42 @@ function App() {
 
   if(registrarse && !idUsuario && !password) {
     return (
-      <div>
-        <h1>Registrarse</h1>
-        <input type='text' placeholder='Ingrese su ID' value={idRegistro} onChange={e => setIdRegistro(e.target.value)}></input>
-        <input type='text' placeholder='Ingrese su nombre' value={nombreRegistro} onChange={e => setNombreRegistro(e.target.value)}></input>
-        <input type='password' placeholder='Ingrese Contraseña' value={passRegistro} onChange={e => setPassRegistro(e.target.value)}></input>
-        <button onClick={handleRegistrarse}>Registrarse</button>
-        <button onClick={handleRegistrarseFalse}>Volver</button>
+      <div className='App'>
+        <div className='cajaRegistrarse'>
+          <h1>Nuevo Usuario</h1>
+          <input 
+            className='idRegistrarse'
+            type='text' 
+            placeholder='Ingrese su ID' 
+            autoComplete='off' 
+            value={idRegistro} 
+            onChange={e => setIdRegistro(e.target.value)}>
+          </input>
+          <input 
+            className='nombreRegistrarse'
+            type='text' 
+            placeholder='Ingrese su Nombre' 
+            autoComplete='off' 
+            value={nombreRegistro} 
+            onChange={e => setNombreRegistro(e.target.value)}>
+          </input>
+          <input 
+            className='passRegistrarse'
+            type='password' 
+            placeholder='Ingrese su Contraseña' 
+            value={passRegistro} onChange={e => setPassRegistro(e.target.value)}>
+          </input>
+        </div>
+          <button onClick={handleRegistrarse} className='registrarButton'>Registrarse</button>
+          <button onClick={handleRegistrarseFalse} className='volverButton'>Volver</button>
       </div>
     );
   }else if(sesionIniciada){
     return (
       <div className='App'>
         <h2>{isConnected ? `CONECTADO (${nombreUsuario})` : 'NO ESTÁ CONECTADO'}</h2>
-        <div className='cajaMensajes'>
-          <ULMensajes>
+        <div className='cajaMensajes' ref={cajaMensajesRef}>
+          <ULMensajes className='mensajes'>
             {mensajes.map((mensaje, index) => (
               <LiMensaje key={index}>
                 {mensaje.usuario}: {mensaje.mensaje}
@@ -163,9 +194,13 @@ function App() {
             value={nuevoMensaje}
             autoComplete='off'
             onChange={e => setNuevoMensaje(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === 'Return') {
+                enviarMensaje();
+              }
+            }}
           />
-          <button onClick={enviarMensaje}>Enviar</button>
-          <br/>
+          <button onClick={enviarMensaje} className='enviarButton'><img src='/public/send_ico.svg' className='enviarIcono'></img></button>
         </div>
           <button className='botonSalir' onClick={handleSalir}>Salir</button>
       </div>
@@ -174,25 +209,29 @@ function App() {
     return (
       <div className='App'>
         <h1>Bienvenido</h1>
-        <input
-          className='id_usuario'
-          type="text"
-          name="id_usuario"
-          placeholder="Ingrese su ID"
-          value={idUsuario}
-          onChange={e => setIdUsuario(e.target.value)}
-        />
-        <input
-          className='password'
-          type="password"
-          name="password"
-          placeholder="Ingrese su contraseña"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-        <button onClick={handleIniciarSesion}>Iniciar Sesion</button>
-        <button onClick={handleRegistrarseTrue}>Registrarse</button>
         <p>{mensajeValidacion}</p>
+        <div className='cajaLogin'>
+          <input
+            className='id_usuario'
+            autoComplete='off'
+            type="text"
+            name="id_usuario"
+            placeholder="Ingrese su ID"
+            value={idUsuario}
+            onChange={e => setIdUsuario(e.target.value)}
+          />
+          <input
+            className='password'
+            type="password"
+            name="password"
+            placeholder="Ingrese su contraseña"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            />
+        </div>
+        <button onClick={handleIniciarSesion} className='iniciarSesionButton'>Iniciar Sesion</button>
+        <p>- o -</p>
+        <button onClick={handleRegistrarseTrue} className='registrarseButton'>Registrarse</button>
       </div>
     );
   }

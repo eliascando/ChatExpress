@@ -14,6 +14,9 @@ const LiMensaje = styled.li `
     padding: 10px 20px;
     color: black;
     border-radius: 15px;
+    overflow: hidden;
+    word-wrap: break-word;
+    text-align: right;
 `
 export{
     ULMensajes, LiMensaje

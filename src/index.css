@@ -21,7 +21,12 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
-
+.App{
+  padding: 50px;
+  border-radius: 10px;
+  background: rgba(121, 160, 182, 0.466);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.473) ghostwhite;
+}
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -38,6 +43,39 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+.id_usuario,
+.password,
+.idRegistrarse,
+.nombreRegistrarse,
+.passRegistrarse{
+  padding: 15px 10px;
+  width: 91%;
+  display: block;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border-style: none;
+}
+
+.cajaLogin,
+.cajaRegistrarse{
+  align-items: center;
+  margin: auto;
+  margin-bottom: 10px;
+}
+.iniciarSesionButton{
+  background-color: #5960e4;
+  width: 100%;
+}
+.registrarButton{
+  background-color: #5960e4;
+  display: block;
+  margin-bottom: 10px;
+  width: 97%;
+}
+.registrarseButton,
+.volverButton{
+  background: #0a1b2b;
+}
 .usuario{
   height: 30px;
   width: 100%;
@@ -46,19 +84,38 @@ button {
   margin-bottom: 10px;
 }
 .mensaje{
-  height: 35px;
+  height: 40px;
   margin: auto;
   margin-right: 10px;
+  width: 80%;
+  border-style: none;
+  border-radius: 10px;
+}
+.enviarButton {
+  height: 40px;
+  background: none;
+  text-align: center;
+}
+.enviarIcono{
+  margin: auto;
+
 }
 .controlMensaje{
   margin-bottom: 10px;
 }
+.mensajes{
+  
+}
 .cajaMensajes{
   background: darkgray;
   padding: 10px;
+  width: 500px;
+  height: 350px;
+  scroll-behavior: auto;
   border-radius: 10px;
   margin: auto;
   margin-bottom: 10px;
+  overflow: auto;
 }
 .botonSalir{
   background: rebeccapurple;
