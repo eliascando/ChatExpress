@@ -3,7 +3,7 @@ import './App.css';
 import { io } from 'socket.io-client';
 import { ULMensajes, LiMensaje } from './components/Mensajes';
 
-const socket = io('https://chat-xpress.onrender.com');
+const socket = io('localhost:8080');
 
 function App() {
   const cajaMensajesRef = useRef(null);
@@ -37,7 +37,15 @@ function App() {
   useEffect(() => {
     if(idUsuario, nombreUsuario, password){
       socket.on('connect', () => {
+        socket.emit('user_connected', nombreUsuario);
         setIsConnected(true);
+        window.addEventListener('blur', () => {
+          socket.emit('user_disconnect', nombreUsuario)
+        })
+        window.addEventListener('focus', () => {
+          socket.emit('user_connected', nombreUsuario)
+        })
+    
       });
       setSesionActiva(true);
       setSesionIniciada(true);
@@ -58,6 +66,8 @@ function App() {
     };
   }, []);  
   
+
+
   useEffect(() => {
     localStorage.setItem('mensajes', JSON.stringify(mensajes));
   }, [mensajes]);
