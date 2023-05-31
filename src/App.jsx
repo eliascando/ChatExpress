@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import { SingIn,SingUp } from './components/Login';
 import { Chat } from './components/Chat';
 
-const socket = io('https://chat-xpress.onrender.com');
+const socket = io('https://prueba-socket-vjmm.onrender.com');
 
 function App() {
 
