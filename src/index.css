@@ -105,6 +105,29 @@ button {
   margin-bottom: 10px;
   overflow: auto;
 }
+.mensajes{
+  max-width: 800px;
+  margin: 10px auto;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.message{
+  background-color: #fff;
+  padding: 10px 20px;
+  color: black;
+  border-radius: 15px;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-align: right;
+}
+.message .remitente{
+  background: #5960e4;
+}
+.message .emisor{
+  background: pink;
+}
 .botonSalir{
   background: rebeccapurple;
 }

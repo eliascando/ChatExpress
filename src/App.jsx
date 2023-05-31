@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import { io } from 'socket.io-client';
 import { SingIn,SingUp } from './components/Login';
-import { Chat } from './components/Chat';
-
-const socket = io('https://prueba-socket-vjmm.onrender.com');
+import { JoinRoom } from './components/JoinRoom';
 
 function App() {
 
@@ -21,7 +18,6 @@ function App() {
     const passwordGuardado = localStorage.getItem('password');
     return passwordGuardado ? JSON.parse(passwordGuardado) : '';
   });
-  const [isConnected, setIsConnected] = useState(null);
   const [registrarse, setRegistrarse] = useState(false);
   const [idRegistro, setIdRegistro] = useState('');
   const [nombreRegistro, setNombreRegistro] = useState('');
@@ -41,9 +37,6 @@ function App() {
 
   useEffect(() => {
     if(idUsuario && nombreUsuario && password){
-      socket.on('connect', () => {
-        setIsConnected(true);
-      });
       setSesionActiva({idUsuario, nombreUsuario, password});
       setSesionIniciada(true);
     }
@@ -52,11 +45,6 @@ function App() {
     if (passwordGuardado) {
       setPassword(JSON.parse(passwordGuardado));
     }
-  
-    return () => {
-      socket.off('connection');
-      socket.off('chat_message');
-    };
     
   }, []);    
   
@@ -86,7 +74,6 @@ function App() {
     localStorage.setItem('password', JSON.stringify(null))
     localStorage.setItem('sala', JSON.stringify(null))
     localStorage.setItem('sala-activa', JSON.stringify(null))
-    setIsConnected(null)
     setRegistrarse(false)
     setIdRegistro('')
     setNombreRegistro('')
@@ -114,15 +101,13 @@ function App() {
         />
       )}
       {sesionIniciada && sesionActiva && (
-        <Chat
-          isConnected={isConnected}
-          nombreUsuario={nombreUsuario}
-          socket={socket}
-          handleSalir={handleSalir}
-          choosedRoom={choosedRoom}
-          setChoosedRoom={setChoosedRoom}
-          room={room}
-          setRoom={setRoom}
+        <JoinRoom
+        room = {room}
+        setRoom = {setRoom}
+        choosedRoom = {choosedRoom}
+        setChoosedRoom = {setChoosedRoom}
+        nombreUsuario = {nombreUsuario}
+        handleSalir={handleSalir}
         />
       )}
       {!registrarse && !sesionIniciada && !room && !choosedRoom &&(
