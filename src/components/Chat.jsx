@@ -46,7 +46,7 @@ const Chat = ({
         return () => {
         socket.off('chat_message', handleChatMessage);
         };
-    }, [socket,socketRef,setMensajes]);
+    });
   
   useEffect(()=> {
     if(isConnected == null){
