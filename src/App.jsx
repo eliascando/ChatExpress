@@ -1,17 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import { io } from 'socket.io-client';
 import { SingIn,SingUp } from './components/Login';
 import { Chat } from './components/Chat';
 
-const socket = io('https://chat-xpress.onrender.com');
+const socket = io('localhost:8080');
 
 function App() {
-  const cajaMensajesRef = useRef(null);
-  const [mensajes, setMensajes] = useState(() => {
-    const mensajesGuardados = localStorage.getItem('mensajes');
-    return mensajesGuardados ? JSON.parse(mensajesGuardados) : [];
-  });
+
   const [idUsuario, setIdUsuario] = useState(() => {
     const usuarioGuardado = localStorage.getItem('usuario');
     return usuarioGuardado ? JSON.parse(usuarioGuardado) : '';
@@ -26,7 +22,6 @@ function App() {
     return passwordGuardado ? JSON.parse(passwordGuardado) : '';
   });
   const [isConnected, setIsConnected] = useState(null);
-  const [nuevoMensaje, setNuevoMensaje] = useState('');
   const [registrarse, setRegistrarse] = useState(false);
   const [idRegistro, setIdRegistro] = useState('');
   const [nombreRegistro, setNombreRegistro] = useState('');
@@ -34,6 +29,15 @@ function App() {
   const [sesionIniciada, setSesionIniciada] = useState(false);
   const [mensajeValidacion, setMensajeValidacion] = useState('');
   const [sesionActiva, setSesionActiva] = useState({});
+  const [choosedRoom, setChoosedRoom] = useState(() => {
+    const salaActiva = localStorage.getItem('sala-activa');
+    if(JSON.parse(salaActiva) === 'si'){return true}
+    else return null
+  });
+  const [room, setRoom] = useState(() => {
+    const salaGuardada = localStorage.getItem('sala');
+    return salaGuardada ? JSON.parse(salaGuardada) : '';
+  });
 
   useEffect(() => {
     if(idUsuario && nombreUsuario && password){
@@ -50,21 +54,12 @@ function App() {
     }
   
     return () => {
-      socket.off('connect');
+      socket.off('connection');
       socket.off('chat_message');
     };
-  }, []);  
+    
+  }, []);    
   
-  useEffect(() => {
-    localStorage.setItem('mensajes', JSON.stringify(mensajes));
-  }, [mensajes]);
-
-  useEffect(() => {
-    if (cajaMensajesRef.current) {
-      cajaMensajesRef.current.scrollTop = cajaMensajesRef.current.scrollHeight;
-    }
-  }, [mensajes]);
-
   useEffect(() => {
     setSesionActiva({ idUsuario, nombreUsuario, password });
     guardarSesionLocalStorage();
@@ -85,15 +80,21 @@ function App() {
   };
 
   const handleSalir = () => {
-    localStorage.removeItem('mensajes');
-    localStorage.removeItem('sesion');
-    setIdUsuario('');
-    setNombreUsuario('');
-    setPassword('');
-    setMensajes([]);
-    setSesionIniciada(false);
-    setMensajeValidacion('');
-    setSesionActiva({});
+    localStorage.setItem('mensajes',JSON.stringify([]))
+    localStorage.setItem('usuario', JSON.stringify(null))
+    localStorage.setItem('sesion', JSON.stringify(null))
+    localStorage.setItem('password', JSON.stringify(null))
+    localStorage.setItem('sala', JSON.stringify(null))
+    localStorage.setItem('sala-activa', JSON.stringify(null))
+    setIsConnected(null)
+    setRegistrarse(false)
+    setIdRegistro('')
+    setNombreRegistro('')
+    setPassRegistro('')
+    setSesionIniciada(false)
+    setMensajeValidacion('')
+    setSesionActiva({})
+    setChoosedRoom(null)
   };
 
   return (
@@ -108,22 +109,23 @@ function App() {
           setPassRegistro={setPassRegistro}
           handleRegistrarseFalse={handleRegistrarseFalse}
           mensajeValidacion={mensajeValidacion}
+          setMensajeValidacion={setMensajeValidacion}
+          setRegistrarse={setRegistrarse}
         />
       )}
       {sesionIniciada && sesionActiva && (
         <Chat
           isConnected={isConnected}
           nombreUsuario={nombreUsuario}
-          cajaMensajesRef={cajaMensajesRef}
-          mensajes={mensajes}
-          setMensajes={setMensajes}
-          nuevoMensaje={nuevoMensaje}
-          setNuevoMensaje={setNuevoMensaje}
           socket={socket}
           handleSalir={handleSalir}
+          choosedRoom={choosedRoom}
+          setChoosedRoom={setChoosedRoom}
+          room={room}
+          setRoom={setRoom}
         />
       )}
-      {!registrarse && !sesionIniciada && (
+      {!registrarse && !sesionIniciada && !room && !choosedRoom &&(
         <SingIn
           mensajeValidacion={mensajeValidacion}
           idUsuario={idUsuario}
@@ -140,7 +142,6 @@ function App() {
       )}
     </>
   );
-  
 }
 
 export default App;

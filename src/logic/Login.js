@@ -67,9 +67,9 @@ export const handleRegistrarse = async ({
         } else {
           console.log('error al registrarse');
           setTimeout(() => {
-            setMensajeValidacion('')
+            setMensajeValidacion('');
           }, 1500);
-          setMensajeValidacion('No se pudo registrar, el id no es válido')
+          setMensajeValidacion('No se pudo registrar, el id no es válido');
         }
       } catch (error) {
         console.log(error);

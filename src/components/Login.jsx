@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {handleIniciarSesion} from '../logic/Login'
+import {handleIniciarSesion, handleRegistrarse} from '../logic/Login'
 
 const SingIn = ({
     mensajeValidacion,
@@ -66,7 +66,6 @@ const SingUp = ({
     setNombreRegistro,
     passRegistro,
     setPassRegistro,
-    handleRegistrarse,
     handleRegistrarseFalse,
     mensajeValidacion,
     setMensajeValidacion,
@@ -122,9 +121,9 @@ const SingUp = ({
 
 SingIn.propTypes = {
     mensajeValidacion: PropTypes.string.isRequired,
-    idUsuario: PropTypes.string.isRequired,
+    idUsuario: PropTypes.string,
     setIdUsuario: PropTypes.func.isRequired,
-    password: PropTypes.string.isRequired,
+    password: PropTypes.string,
     setPassword: PropTypes.func.isRequired,
     handleRegistrarseTrue: PropTypes.func.isRequired,
     setNombreUsuario:PropTypes.func.isRequired,
@@ -140,11 +139,10 @@ SingUp.propTypes = {
     setNombreRegistro: PropTypes.func.isRequired,
     passRegistro: PropTypes.string.isRequired,
     setPassRegistro: PropTypes.func.isRequired,
-    handleRegistrarse: PropTypes.func.isRequired,
     handleRegistrarseFalse: PropTypes.func.isRequired,
     mensajeValidacion: PropTypes.string.isRequired,
     setMensajeValidacion: PropTypes.func.isRequired,
-    setRegistrarse: PropTypes.func.isRequired
+    setRegistrarse: PropTypes.func
 }
 
 export {SingIn, SingUp};
