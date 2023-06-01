@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {handleIniciarSesion} from '../logic/Login'
+import {handleIniciarSesion, handleRegistrarse} from '../logic/Login'
 
 const SingIn = ({
     mensajeValidacion,
