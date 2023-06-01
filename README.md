@@ -17,7 +17,7 @@ Pantalla de chat entre dos usuarios
 <img src="https://github.com/eliascando/eliascando/assets/75767835/cc4b42c6-64e9-49e0-91de-aa34dc0ab4a3" alter="logo" width="100px">
 <img src="https://github.com/eliascando/eliascando/assets/75767835/e4946c81-8b5b-4479-99ad-37f6f06b908d" alter="logo" width="100px">  
 
-# Para ejecutar el proyecto en entorno de desarrollo
+## Para ejecutar el proyecto en entorno de desarrollo
 
 Debe clonar el proyecto en su directorio
 ```
