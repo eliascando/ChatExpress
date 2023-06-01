@@ -1,5 +1,5 @@
 # ChatExpress
-Applicacion Web de Chat en tiempo real con React y Node.js
+Applicacion Web de Chat en tiempo real con React y Node.js utilizando APIREST Full y Websocket Socket.io
 
 ![image](https://github.com/eliascando/eliascando/assets/75767835/0f3edb51-4ce6-46f2-b998-48b5bbfa163b)
 Página de Inicio
@@ -16,3 +16,19 @@ Pantalla de chat entre dos usuarios
 <img src="https://github.com/eliascando/eliascando/assets/75767835/2dea7b73-d136-4088-a988-bd89ad5697fc" alter="mssql" width="80px">
 <img src="https://github.com/eliascando/eliascando/assets/75767835/cc4b42c6-64e9-49e0-91de-aa34dc0ab4a3" alter="logo" width="100px">
 <img src="https://github.com/eliascando/eliascando/assets/75767835/e4946c81-8b5b-4479-99ad-37f6f06b908d" alter="logo" width="100px">  
+
+# Para ejecutar el proyecto en entorno de desarrollo
+
+Debe clonar el proyecto en su directorio
+```
+  git clone https://github.com/eliascando/ChatExpress.git
+```
+Moverse en la consola al directorio donde se clonó el proyecto
+```
+  cd C://Users/user/ChatExpress
+```
+Luego en la consola se debe ejecutar el proyecto usando npm en modo desarrollador
+```
+  npm run start
+```
+> **Nota:** Debe tener instalado Git y Node.js para poder instalar las dependencias y ejecutar el proyecto
