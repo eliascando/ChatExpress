@@ -15,7 +15,7 @@ const SingIn = ({
     guardarSesionLocalStorage,
 }) => {
     return(
-        <div className='App'>
+        <div className='Login'>
         <h1>Bienvenido</h1>
         <p>{mensajeValidacion}</p>
         <div className='cajaLogin'>
@@ -72,9 +72,9 @@ const SingUp = ({
     setRegistrarse
 }) => {
     return(
-        <div className='App'>
+        <div className='Registrarse'>
         <div className='cajaRegistrarse'>
-          <h1>Nuevo Usuario</h1>
+          <h1 className='tituloNuevoUsuario'>Nuevo Usuario</h1>
           <input
             className='idRegistrarse'
             type='text'

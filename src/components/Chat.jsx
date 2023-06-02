@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 const Chat = ({
   socket,
   isConnected,
+  setIsConnected,
   nombreUsuario,
   handleSalir,
   room
@@ -25,31 +26,30 @@ const Chat = ({
           mensaje: nuevoMensaje,
         }
       });
-      console.log('se envia un mensaje')
       setNuevoMensaje('');
     }
   };
 
   const recibirMensaje = (message) => {
-    console.log('llega un mensaje')
     setMensajes((mensajes) => [...mensajes, message]);
-    console.log(message);
-    console.log(socket)
   };
 
+  const desconectarse = () => {
+    socket.emit('exit_room',({
+      user : nombreUsuario, 
+      room: room
+    }));
+    handleSalir()
+  }
   useEffect(() => {
+    socket.emit('join_room',{ 
+      room: room, 
+      user: nombreUsuario
+    });
+
+    setIsConnected(true)
 
     socket.on('chat_message', recibirMensaje);
-    
-    console.log(socket)
-  
-    if (isConnected === null) {
-      setMensajeEstado('CONECTANDO...');
-    } else if (isConnected) {
-      setMensajeEstado(`CONECTADO (${nombreUsuario})`);
-    } else if (!isConnected) {
-      setMensajeEstado('NO ESTÁ CONECTADO');
-    }
 
     return () => {
       socket.off('connection');
@@ -57,9 +57,18 @@ const Chat = ({
     };
   },[]);
 
+  useEffect(()=>{
+    if (isConnected === null) {
+      setMensajeEstado('CONECTANDO...');
+    } else if (isConnected) {
+      setMensajeEstado(`CONECTADO (${nombreUsuario})`);
+    } else if (!isConnected) {
+      setMensajeEstado('NO ESTÁ CONECTADO');
+    }
+  },[isConnected])
+
   
   useEffect(() => {
-    console.log('se ejecuta el use efect de guardar mensajes y mostrar el bottom')
     localStorage.setItem('mensajes', JSON.stringify(mensajes));
     if (cajaMensajesRef.current) {
       cajaMensajesRef.current.scrollTop = cajaMensajesRef.current.scrollHeight;
@@ -72,11 +81,13 @@ const Chat = ({
       <h2>{mensajeEstado}</h2>
       <div className='cajaMensajes' ref={cajaMensajesRef}>
         <ul className='mensajes'>
-          {mensajes.map((mensaje, index) => (
-            <li className={`message ${mensaje.usuario !== nombreUsuario ? 'remitente' : 'emisor'}`} key={index}>
-            {mensaje.usuario}: {mensaje.mensaje}
+        {mensajes.slice().reverse().map((mensaje, index) => (
+          <li className={`message ${mensaje.usuario !== nombreUsuario ? 'remitente' : 'emisor'}`} key={index}>
+            <div className="content">
+              {mensaje.usuario} : {mensaje.mensaje}
+            </div>
           </li>
-          ))}
+        ))}
         </ul>
       </div>
       <div className='controlMensaje'>
@@ -98,7 +109,7 @@ const Chat = ({
           Enviar
         </button>
       </div>
-      <button className='botonSalir' onClick={handleSalir}>
+      <button className='botonSalir' onClick={()=>{desconectarse()}}>
         Cerrar Sesión
       </button>
     </div>

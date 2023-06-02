@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Chat } from "./Chat";
 import { io } from 'socket.io-client';
 
-const socket = io('localhost:8080');
+const socket = io('');
 
 const JoinRoom = ({
     room,
@@ -21,7 +21,7 @@ const JoinRoom = ({
         socket.on('connect', () => {
             setIsConnected(true);
         });
-    },[room])
+    },[socket])
 
     const handleIngresarSala = () =>{
         if(capturarSala !== ''){
@@ -32,18 +32,18 @@ const JoinRoom = ({
                 user: nombreUsuario
             });
             localStorage.setItem('sala', JSON.stringify(capturarSala));
-            localStorage.setItem('sala-activa',JSON.stringify('si'))
+            localStorage.setItem('sala-activa',true)
         }else{
             setChoosedRoom(false)
         }
-        console.log(socket)
     }
     return(
         <>
             {!choosedRoom &&(
                 <div>
-                    <h1>Ingrese el nombre de la sala:</h1>
+                    <h1 className="tituloIngresarSala">Ingrese el nombre de la sala:</h1>
                     <input
+                        className="ingresarSala"
                         type="text"
                         placeholder="Ingrese..."
                         onChange={(e) => setCapturarSala(e.target.value)}
@@ -56,6 +56,7 @@ const JoinRoom = ({
                 <Chat
                     socket={socket}
                     isConnected={isConnected}
+                    setIsConnected={setIsConnected}
                     nombreUsuario={nombreUsuario}
                     handleSalir={handleSalir}
                     room={room}

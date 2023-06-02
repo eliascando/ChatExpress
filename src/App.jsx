@@ -27,8 +27,7 @@ function App() {
   const [sesionActiva, setSesionActiva] = useState({});
   const [choosedRoom, setChoosedRoom] = useState(() => {
     const salaActiva = localStorage.getItem('sala-activa');
-    if(JSON.parse(salaActiva) === 'si'){return true}
-    else return null
+    return salaActiva ? true : false
   });
   const [room, setRoom] = useState(() => {
     const salaGuardada = localStorage.getItem('sala');
@@ -61,19 +60,18 @@ function App() {
   
   const handleRegistrarseTrue = () => {
     setRegistrarse(true);
+    setMensajeValidacion('')
+    setIdUsuario('')
+    setPassword('')
   };
 
   const handleRegistrarseFalse = () => {
     setRegistrarse(false);
+    setMensajeValidacion('')
   };
 
   const handleSalir = () => {
-    localStorage.setItem('mensajes',JSON.stringify([]))
-    localStorage.setItem('usuario', JSON.stringify(null))
-    localStorage.setItem('sesion', JSON.stringify(null))
-    localStorage.setItem('password', JSON.stringify(null))
-    localStorage.setItem('sala', JSON.stringify(null))
-    localStorage.setItem('sala-activa', JSON.stringify(null))
+    localStorage.clear()
     setRegistrarse(false)
     setIdRegistro('')
     setNombreRegistro('')
@@ -81,7 +79,11 @@ function App() {
     setSesionIniciada(false)
     setMensajeValidacion('')
     setSesionActiva({})
-    setChoosedRoom(null)
+    setChoosedRoom(false)
+    setRoom('')
+    setIdUsuario('')
+    setNombreUsuario('')
+    setPassword('')
   };
 
   return (
