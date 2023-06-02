@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Chat } from "./Chat";
 import { io } from 'socket.io-client';
 
-const socket = io('');
+const socket = io('https://chat-xpress.onrender.com');
 
 const JoinRoom = ({
     room,
