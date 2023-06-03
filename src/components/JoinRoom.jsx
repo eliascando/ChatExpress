@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Chat } from "./Chat";
 import { io } from 'socket.io-client';
 
-const socket = io('https://chat-xpress.onrender.com');
+const socket = io('');
 
 const JoinRoom = ({
     room,
@@ -66,14 +66,4 @@ const JoinRoom = ({
     )
 }
 
-JoinRoom.propTypes = {
-    room: PropTypes.string,
-    setRoom: PropTypes.func,
-    choosedRoom: PropTypes.bool,
-    setChoosedRoom: PropTypes.func,
-    nombreUsuario: PropTypes.string,
-    setIsConnected: PropTypes.func,
-    handleSalir: PropTypes.func
-};
-  
 export {JoinRoom};

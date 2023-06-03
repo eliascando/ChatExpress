@@ -49,12 +49,13 @@ export const handleRegistrarse = async ({
 }) => {
     if(idRegistro && nombreRegistro && passRegistro){
       try {
-        let response = RegistrarUsuario({
+        let response = await RegistrarUsuario({
             idRegistro,
             nombreRegistro,
             passRegistro
         })
-        if (response.ok) {
+        
+        if(response.ok) {
           console.log('registro exitoso');
           setTimeout(() => {
             setMensajeValidacion('')

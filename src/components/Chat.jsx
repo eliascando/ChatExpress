@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
+
 import { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 
 const Chat = ({
   socket,
@@ -114,14 +115,6 @@ const Chat = ({
       </button>
     </div>
   );
-};
-
-Chat.propTypes = {
-  socket: PropTypes.object,
-  isConnected: PropTypes.bool,
-  nombreUsuario: PropTypes.string,
-  handleSalir: PropTypes.func,
-  room: PropTypes.string
 };
 
 export { Chat };

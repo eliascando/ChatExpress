@@ -1,0 +1,13 @@
+.contenedorMain{
+    background: black;
+    width: 600px;
+    height: 500px;
+    padding: 10px;
+}
+
+.opcionMenu{
+    background: pink;
+}
+.elegido{
+    background: red;
+}

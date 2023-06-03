@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import { SingIn,SingUp } from './components/Login';
 import { JoinRoom } from './components/JoinRoom';
+import { MainScreen } from './components/MainScreen';
 
 function App() {
 
@@ -103,13 +104,16 @@ function App() {
         />
       )}
       {sesionIniciada && sesionActiva && (
-        <JoinRoom
+        /*<JoinRoom
         room = {room}
         setRoom = {setRoom}
         choosedRoom = {choosedRoom}
         setChoosedRoom = {setChoosedRoom}
         nombreUsuario = {nombreUsuario}
         handleSalir={handleSalir}
+        />*/
+        <MainScreen
+          handleSalir={handleSalir}
         />
       )}
       {!registrarse && !sesionIniciada && !room && !choosedRoom &&(

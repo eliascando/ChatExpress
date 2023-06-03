@@ -1,4 +1,5 @@
-import PropTypes from 'prop-types';
+/* eslint-disable react/prop-types */
+
 import {handleIniciarSesion, handleRegistrarse} from '../logic/Login'
 
 const SingIn = ({
@@ -117,32 +118,6 @@ const SingUp = ({
         <p>{mensajeValidacion}</p>
       </div>
     )
-}
-
-SingIn.propTypes = {
-    mensajeValidacion: PropTypes.string.isRequired,
-    idUsuario: PropTypes.string,
-    setIdUsuario: PropTypes.func.isRequired,
-    password: PropTypes.string,
-    setPassword: PropTypes.func.isRequired,
-    handleRegistrarseTrue: PropTypes.func.isRequired,
-    setNombreUsuario:PropTypes.func.isRequired,
-    setSesionIniciada: PropTypes.func.isRequired,
-    setMensajeValidacion: PropTypes.func.isRequired,
-    setSesionActiva: PropTypes.func.isRequired,
-    guardarSesionLocalStorage: PropTypes.func.isRequired,
-};
-SingUp.propTypes = {
-    idRegistro: PropTypes.string.isRequired,
-    setIdRegistro: PropTypes.func.isRequired,
-    nombreRegistro: PropTypes.string.isRequired, 
-    setNombreRegistro: PropTypes.func.isRequired,
-    passRegistro: PropTypes.string.isRequired,
-    setPassRegistro: PropTypes.func.isRequired,
-    handleRegistrarseFalse: PropTypes.func.isRequired,
-    mensajeValidacion: PropTypes.string.isRequired,
-    setMensajeValidacion: PropTypes.func.isRequired,
-    setRegistrarse: PropTypes.func
 }
 
 export {SingIn, SingUp};
