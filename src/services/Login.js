@@ -1,16 +1,20 @@
+import { API_KEY, API_URL } from "./constants";
+
 export const ValidarUsuario = async({
     idUsuario,
     password
 }) => {
     const response = await fetch(
-        `https://chatapi20230528200049.azurewebsites.net/api/usuarios/validar/${idUsuario}/${password}`,
+        `${API_URL}/api/usuarios/validar/${idUsuario}/${password}`,
         {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'apiKey' : API_KEY
         },
         }
     );
+    console.log(response)
     return await response.text();
 }
 
@@ -25,11 +29,12 @@ export const RegistrarUsuario = async({
         password: passRegistro,
       };
     const response = await fetch(
-        'https://chatapi20230528200049.azurewebsites.net/api/usuarios',
+        `${API_URL}/api/usuarios`,
         {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'apiKey': API_KEY
         },
         body: JSON.stringify(body),
         }

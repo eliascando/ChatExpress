@@ -2,8 +2,9 @@
 import { useEffect, useState } from "react";
 import { Chat } from "./Chat";
 import { io } from 'socket.io-client';
+import { WEBSOCKET_URL } from "../services/constants";
 
-const socket = io('');
+const socket = io(WEBSOCKET_URL);
 
 const JoinRoom = ({
     room,
