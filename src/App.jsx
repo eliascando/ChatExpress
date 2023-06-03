@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import { SingIn,SingUp } from './components/Login';
-import { JoinRoom } from './components/JoinRoom';
+//import { JoinRoom } from './components/JoinRoom';
 import { MainScreen } from './components/MainScreen';
 
 function App() {

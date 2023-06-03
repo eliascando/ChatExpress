@@ -17,17 +17,17 @@ export const MainScreen = ({
 
   return (
     <> 
-        <navbar className="barraNavegacion">
-            <button className={`opcionMenu ${opcionElegida==1 && 'elegido'}`} onClick={() => {setOpcionElegida(1)}}>Amigos</button>
+        <div className="barraNavegacion">
+            <button className={`opcionMenu ${opcionElegida==1 && 'elegido'}`} onClick={() => {setOpcionElegida(1)}}>Chats</button>
             <button className={`opcionMenu ${opcionElegida==2 && 'elegido'}`} onClick={() => {setOpcionElegida(2)}}>Buscar</button>
             <button className={`opcionMenu ${opcionElegida==3 && 'elegido'}`} onClick={() => {setOpcionElegida(3)}}>Notificaciones</button>
-        </navbar>
+        </div>
         <div className="contenedorMain">
             {opcionElegida == 1 &&(<FriendList/>)}
             {opcionElegida == 2 &&(<AddFriends/>)}
             {opcionElegida == 3 &&(<Notifications/>)}
         </div>
-        <button onClick={()=>{cerrarSesion()}}>Cerrar Sesion</button>
+        <button className="cerrarSesion" onClick={()=>{cerrarSesion()}}>Cerrar Sesion</button>
     </>
   )
 }

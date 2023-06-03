@@ -1,13 +1,23 @@
 .contenedorMain{
-    background: black;
     width: 600px;
     height: 500px;
     padding: 10px;
 }
-
+.barraNavegacion{
+    margin-top: 0px;
+}
 .opcionMenu{
-    background: pink;
+    background: rgb(92, 157, 241);
+    padding: 10px;
+    width: 30%;
+    margin-left:10px ;
+    margin-right: 10px;
 }
 .elegido{
-    background: red;
+    background: rgb(8, 81, 216);
+    gap: 10px;
+}
+
+.cerrarSesion{
+    background: rgb(235, 58, 58);
 }
