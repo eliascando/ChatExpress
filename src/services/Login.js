@@ -27,7 +27,8 @@ export const RegistrarUsuario = async({
         id: idRegistro,
         usuario: nombreRegistro,
         password: passRegistro,
-      };
+        imagen: ''
+    };
     const response = await fetch(
         `${API_URL}/api/usuarios`,
         {

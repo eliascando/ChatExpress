@@ -2,11 +2,12 @@
 import { useState } from "react"
 import { AddFriends } from "./AddFriends"
 import { FriendList } from "./FriendList"
-import { Notifications } from "./Notifications"
+import { Solicitudes } from "./Solicitudes"
 import '../css/MainScreen.css'
 
 export const MainScreen = ({
-    handleSalir
+    handleSalir,
+    sesionActiva
 }) => {
     const [opcionElegida, setOpcionElegida] = useState(1);
 
@@ -20,12 +21,12 @@ export const MainScreen = ({
         <div className="barraNavegacion">
             <button className={`opcionMenu ${opcionElegida==1 && 'elegido'}`} onClick={() => {setOpcionElegida(1)}}>Chats</button>
             <button className={`opcionMenu ${opcionElegida==2 && 'elegido'}`} onClick={() => {setOpcionElegida(2)}}>Buscar</button>
-            <button className={`opcionMenu ${opcionElegida==3 && 'elegido'}`} onClick={() => {setOpcionElegida(3)}}>Notificaciones</button>
+            <button className={`opcionMenu ${opcionElegida==3 && 'elegido'}`} onClick={() => {setOpcionElegida(3)}}>Solicitudes</button>
         </div>
         <div className="contenedorMain">
-            {opcionElegida == 1 &&(<FriendList/>)}
-            {opcionElegida == 2 &&(<AddFriends/>)}
-            {opcionElegida == 3 &&(<Notifications/>)}
+            {opcionElegida == 1 &&(<FriendList sesionActiva={sesionActiva}/>)}
+            {opcionElegida == 2 &&(<AddFriends sesionActiva={sesionActiva}/>)}
+            {opcionElegida == 3 &&(<Solicitudes sesionActiva={sesionActiva}/>)}
         </div>
         <button className="cerrarSesion" onClick={()=>{cerrarSesion()}}>Cerrar Sesion</button>
     </>

@@ -1,27 +1,31 @@
 /* eslint-disable react/prop-types */
-
+import '../css/Chat.css'
 import { useState, useEffect, useRef } from 'react';
+import { io } from 'socket.io-client';
+import { WEBSOCKET_URL } from "../services/constants";
+
+const socket = io(WEBSOCKET_URL);
 
 const Chat = ({
-  socket,
-  isConnected,
-  setIsConnected,
   nombreUsuario,
-  handleSalir,
-  room
+  amigo,
+  setAmigoElegido
 }) => {  
-    const [mensajeEstado, setMensajeEstado] = useState('');
     const [nuevoMensaje, setNuevoMensaje] = useState('');
+    const [imagenPerfil, setImagenPerfil] = useState('');
+
     const [mensajes, setMensajes] = useState(() => {
         const mensajesGuardados = localStorage.getItem('mensajes');
         return mensajesGuardados ? JSON.parse(mensajesGuardados) : [];
     });
     const cajaMensajesRef = useRef(null);
- 
+
+    const { usuario, imagen, idRoom} = amigo;
+
   const enviarMensaje = () => {
     if (nuevoMensaje !== '') {
       socket.emit('chat_message', {
-        room: room,
+        room: idRoom,
         message: {
           usuario: nombreUsuario,
           mensaje: nuevoMensaje,
@@ -38,36 +42,32 @@ const Chat = ({
   const desconectarse = () => {
     socket.emit('exit_room',({
       user : nombreUsuario, 
-      room: room
+      idRoom: idRoom
     }));
-    handleSalir()
+    setAmigoElegido(false);
+    localStorage.removeItem('mensajes')
   }
+
   useEffect(() => {
+    socket.on('connect');
+
     socket.emit('join_room',{ 
-      room: room, 
+      room: idRoom,
       user: nombreUsuario
     });
 
-    setIsConnected(true)
-
     socket.on('chat_message', recibirMensaje);
-
+    
+    if(imagen == ''){
+      setImagenPerfil('../../public/user_default.svg')
+    }else{
+      setImagenPerfil(imagen)
+    }
     return () => {
       socket.off('connection');
       socket.off('chat_message',recibirMensaje);
     };
-  },[]);
-
-  useEffect(()=>{
-    if (isConnected === null) {
-      setMensajeEstado('CONECTANDO...');
-    } else if (isConnected) {
-      setMensajeEstado(`CONECTADO (${nombreUsuario})`);
-    } else if (!isConnected) {
-      setMensajeEstado('NO ESTÁ CONECTADO');
-    }
-  },[isConnected])
-
+  },[amigo]);
   
   useEffect(() => {
     localStorage.setItem('mensajes', JSON.stringify(mensajes));
@@ -77,9 +77,14 @@ const Chat = ({
   }, [mensajes]);
 
   return (
-    <div className='App'>
-      <h1>{room}</h1>
-      <h2>{mensajeEstado}</h2>
+    <div className='contenedorChat'>
+      <div className='informacionUsuario'>
+        <button className='botonVolver' onClick={()=>{desconectarse()}}>
+          <img src='../../public/back-icon.svg'/>
+        </button>
+        <img className='imagenAmigo' src={imagenPerfil}/>
+        <h1 className='nombreAmigo'>{usuario}</h1>
+      </div>
       <div className='cajaMensajes' ref={cajaMensajesRef}>
         <ul className='mensajes'>
         {mensajes.slice().reverse().map((mensaje, index) => (
@@ -110,9 +115,6 @@ const Chat = ({
           Enviar
         </button>
       </div>
-      <button className='botonSalir' onClick={()=>{desconectarse()}}>
-        Cerrar Sesión
-      </button>
     </div>
   );
 };

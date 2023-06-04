@@ -6,19 +6,9 @@ import { MainScreen } from './components/MainScreen';
 
 function App() {
 
-  const [idUsuario, setIdUsuario] = useState(() => {
-    const usuarioGuardado = localStorage.getItem('usuario');
-    return usuarioGuardado ? JSON.parse(usuarioGuardado) : '';
-  });
-  const [nombreUsuario, setNombreUsuario] = useState(() => {
-    const nombreGuardado = localStorage.getItem('sesion');
-    return nombreGuardado ? JSON.parse(nombreGuardado) : '';
-  });
-  
-  const [password, setPassword] = useState(() => {
-    const passwordGuardado = localStorage.getItem('password');
-    return passwordGuardado ? JSON.parse(passwordGuardado) : '';
-  });
+  const [idUsuario, setIdUsuario] = useState('');
+  const [nombreUsuario, setNombreUsuario] = useState('');
+  const [password, setPassword] = useState('');
   const [registrarse, setRegistrarse] = useState(false);
   const [idRegistro, setIdRegistro] = useState('');
   const [nombreRegistro, setNombreRegistro] = useState('');
@@ -26,37 +16,31 @@ function App() {
   const [sesionIniciada, setSesionIniciada] = useState(false);
   const [mensajeValidacion, setMensajeValidacion] = useState('');
   const [sesionActiva, setSesionActiva] = useState({});
-  const [choosedRoom, setChoosedRoom] = useState(() => {
-    const salaActiva = localStorage.getItem('sala-activa');
-    return salaActiva ? true : false
-  });
-  const [room, setRoom] = useState(() => {
-    const salaGuardada = localStorage.getItem('sala');
-    return salaGuardada ? JSON.parse(salaGuardada) : '';
-  });
 
   useEffect(() => {
-    if(idUsuario && nombreUsuario && password){
-      setSesionActiva({idUsuario, nombreUsuario, password});
+    const idUsuarioGuardado = localStorage.getItem('idUsuario');
+    const nombreUsuarioGuardado = localStorage.getItem('nombreUsuario');
+    const sesionActivaGuardada = localStorage.getItem('sesionActiva');
+
+    if (idUsuarioGuardado && nombreUsuarioGuardado && sesionActivaGuardada) {
+      setIdUsuario(JSON.parse(idUsuarioGuardado));
+      setNombreUsuario(nombreUsuarioGuardado);
+      setSesionActiva(JSON.parse(sesionActivaGuardada));
+    }
+  }, []);
+  
+  useEffect(() => {
+    if(idUsuario && nombreUsuario){
+      setSesionActiva({idUsuario, nombreUsuario});
+      guardarSesionLocalStorage();
       setSesionIniciada(true);
     }
+  }, [nombreUsuario, idUsuario]);
 
-    const passwordGuardado = localStorage.getItem('password');
-    if (passwordGuardado) {
-      setPassword(JSON.parse(passwordGuardado));
-    }
-    
-  }, []);    
-  
-  useEffect(() => {
-    setSesionActiva({ idUsuario, nombreUsuario, password });
-    guardarSesionLocalStorage();
-  }, [idUsuario, nombreUsuario, password]);
-  
   const guardarSesionLocalStorage = () => {
-    localStorage.setItem('usuario', JSON.stringify(idUsuario));
-    localStorage.setItem('sesion', JSON.stringify(nombreUsuario));
-    localStorage.setItem('password', JSON.stringify(password));
+    localStorage.setItem('idUsuario', JSON.stringify(idUsuario));
+    localStorage.setItem('nombreUsuario', nombreUsuario);
+    localStorage.setItem('sesionActiva', JSON.stringify(sesionActiva));
   };
   
   const handleRegistrarseTrue = () => {
@@ -80,8 +64,6 @@ function App() {
     setSesionIniciada(false)
     setMensajeValidacion('')
     setSesionActiva({})
-    setChoosedRoom(false)
-    setRoom('')
     setIdUsuario('')
     setNombreUsuario('')
     setPassword('')
@@ -104,19 +86,12 @@ function App() {
         />
       )}
       {sesionIniciada && sesionActiva && (
-        /*<JoinRoom
-        room = {room}
-        setRoom = {setRoom}
-        choosedRoom = {choosedRoom}
-        setChoosedRoom = {setChoosedRoom}
-        nombreUsuario = {nombreUsuario}
-        handleSalir={handleSalir}
-        />*/
         <MainScreen
           handleSalir={handleSalir}
+          sesionActiva={sesionActiva}
         />
       )}
-      {!registrarse && !sesionIniciada && !room && !choosedRoom &&(
+      {!registrarse && !sesionIniciada &&(
         <SingIn
           mensajeValidacion={mensajeValidacion}
           idUsuario={idUsuario}
