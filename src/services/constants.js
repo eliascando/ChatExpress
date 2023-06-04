@@ -1,3 +1,3 @@
-export const API_KEY = 'B7kbSHIt9jyyz5QwF7AhilljTytkv1lx';
-export const API_URL = 'https://chatapi20230528200049.azurewebsites.net/';
-export const WEBSOCKET_URL = 'localhost:8080';
+export const API_KEY = import.meta.env.VITE_API_KEY;
+export const API_URL = import.meta.env.VITE_API_URL;
+export const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
