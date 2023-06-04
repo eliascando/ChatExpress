@@ -12,27 +12,23 @@ export const Solicitudes = ({ sesionActiva }) => {
   useEffect(() => {
     obtenerNotificaciones(idUsuario)
       .then(data => setNotificaciones(data))
-      .catch(error => console.error('Error al obtener las notificaciones:', error));
+      .catch(error => console.error(error));
   }, [showNotificacion]);
 
   const handleAceptar = (idResponse, idRequest) => {
     atenderSolicitud(idResponse, idRequest, 'ACCEPT')
-      .then(data => {
+      .then(() => {
         setShowNotificacion(true);
-        console.log(data)
-        // Realizar las acciones necesarias después de aceptar la solicitud
       })
-      .catch(error => console.error('Error al aceptar la solicitud:', error));
+      .catch(error => console.error(error));
   };
 
   const handleRechazar = (idResponse, idRequest) => {
     atenderSolicitud(idResponse, idRequest, 'DECLINE')
-      .then(data => {
+      .then(() => {
         setShowNotificacion(true);
-        console.log(data)
-        // Realizar las acciones necesarias después de rechazar la solicitud
       })
-      .catch(error => console.error('Error al rechazar la solicitud:', error));
+      .catch(error => console.error(error));
   };
 
   return (
@@ -44,7 +40,7 @@ export const Solicitudes = ({ sesionActiva }) => {
               <div className='datosPersona'>
                 <img
                   className='imagenPersona'
-                  src={notificacion.imagen === '' ? '../../public/user_default.svg' : notificacion.imagen}
+                  src={notificacion.imagen === '' ? '../assets/user_default.svg' : notificacion.imagen}
                   alt="Imagen de perfil"
                 />
                 <div className="nombrePersona">{notificacion.usuario}</div>
@@ -57,7 +53,7 @@ export const Solicitudes = ({ sesionActiva }) => {
           ))}
         </ul>
       ) : (
-        <p>No hay solicitudes de amistad pendientes.</p>
+        <p className='emptyContent'>No hay solicitudes de amistad pendientes.</p>
       )}
       {showNotificacion && (
         <Notificacion message="La solicitud ha sido procesada." />

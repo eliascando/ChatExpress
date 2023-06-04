@@ -12,7 +12,6 @@ export const MainScreen = ({
     const [opcionElegida, setOpcionElegida] = useState(1);
 
     const cerrarSesion = () => {
-        console.log('ENTRO A CERRAR SESION')
         handleSalir()
     }
 
@@ -28,7 +27,10 @@ export const MainScreen = ({
             {opcionElegida == 2 &&(<AddFriends sesionActiva={sesionActiva}/>)}
             {opcionElegida == 3 &&(<Solicitudes sesionActiva={sesionActiva}/>)}
         </div>
-        <button className="cerrarSesion" onClick={()=>{cerrarSesion()}}>Cerrar Sesion</button>
+        <div className="barraInformacion">
+            <p className="nombreUsuario">{sesionActiva.nombreUsuario}</p>
+            <button className="cerrarSesion" onClick={()=>{cerrarSesion()}}>Cerrar Sesion</button>
+        </div>
     </>
   )
 }

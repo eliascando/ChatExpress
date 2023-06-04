@@ -18,6 +18,27 @@
     gap: 10px;
 }
 
+.barraInformacion{
+    display: flex;
+    width: 100%;
+    height: 5%;
+    margin: auto;
+}
+.nombreUsuario{
+    font-size: 100%;
+    font-weight: bold;
+    border-radius: 15px;
+    width: 10%;
+    height: 5%;
+    margin-left: 2%;
+    background: white;
+    color: black;
+    padding: 5px;
+    margin-top: 0;
+}
 .cerrarSesion{
     background: rgb(235, 58, 58);
+    height: 5%;
+    margin-left: 63%;
+    margin-top: 0;
 }

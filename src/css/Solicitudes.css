@@ -67,3 +67,11 @@
     background-color: rgb(236, 69, 69);
     margin-top:10px ;
 }
+.emptyContent{
+    margin: 0 auto;
+    align-items: center;
+    margin-top: 30%;
+    font-size: 200%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 60%;
+}

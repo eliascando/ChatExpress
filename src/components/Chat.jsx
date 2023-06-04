@@ -13,13 +13,12 @@ const Chat = ({
 }) => {  
     const [nuevoMensaje, setNuevoMensaje] = useState('');
     const [imagenPerfil, setImagenPerfil] = useState('');
-
+    const [estadoConexion, setEstadoConexion] = useState({ conectado: false, usuario: '' });
     const [mensajes, setMensajes] = useState(() => {
         const mensajesGuardados = localStorage.getItem('mensajes');
         return mensajesGuardados ? JSON.parse(mensajesGuardados) : [];
     });
     const cajaMensajesRef = useRef(null);
-
     const { usuario, imagen, idRoom} = amigo;
 
   const enviarMensaje = () => {
@@ -28,7 +27,7 @@ const Chat = ({
         room: idRoom,
         message: {
           usuario: nombreUsuario,
-          mensaje: nuevoMensaje,
+          mensaje: nuevoMensaje
         }
       });
       setNuevoMensaje('');
@@ -40,34 +39,51 @@ const Chat = ({
   };
 
   const desconectarse = () => {
-    socket.emit('exit_room',({
-      user : nombreUsuario, 
+    socket.emit('exit_room', {
+      user: nombreUsuario,
       idRoom: idRoom
-    }));
+    });
     setAmigoElegido(false);
-    localStorage.removeItem('mensajes')
-  }
+    setEstadoConexion({ conectado: false, usuario: '' });
+    localStorage.removeItem('mensajes');
+  };
 
   useEffect(() => {
-    socket.on('connect');
+    socket.on('connect', () => {
+    });
 
     socket.emit('join_room',{ 
       room: idRoom,
       user: nombreUsuario
     });
-
     socket.on('chat_message', recibirMensaje);
-    
+
+    socket.on('user_connected', (data) => {
+      const { connected, user } = data;
+      setEstadoConexion({ conectado: connected, usuario: user });
+    });
+
+    socket.on('user_disconnected', (data) => {
+      const { connected, user } = data;
+      setEstadoConexion({ conectado: connected, usuario: user });
+    });
+
     if(imagen == ''){
-      setImagenPerfil('../../public/user_default.svg')
+      setImagenPerfil('../../src/assets/user_default.svg')
     }else{
       setImagenPerfil(imagen)
     }
     return () => {
+      socket.emit('exit_room',({
+        user : nombreUsuario, 
+        room : idRoom
+      }));
       socket.off('connection');
-      socket.off('chat_message',recibirMensaje);
+      socket.off('chat_message', recibirMensaje);
+      socket.off('user_connected');
+      socket.off('user_disconnected');
     };
-  },[amigo]);
+  },[]);
   
   useEffect(() => {
     localStorage.setItem('mensajes', JSON.stringify(mensajes));
@@ -80,17 +96,18 @@ const Chat = ({
     <div className='contenedorChat'>
       <div className='informacionUsuario'>
         <button className='botonVolver' onClick={()=>{desconectarse()}}>
-          <img src='../../public/back-icon.svg'/>
+          <img src='../../src/assets/back-icon.svg'/>
         </button>
         <img className='imagenAmigo' src={imagenPerfil}/>
         <h1 className='nombreAmigo'>{usuario}</h1>
+        <div className={`estadoUsuario ${estadoConexion.conectado && 'conectado'}`}></div>
       </div>
       <div className='cajaMensajes' ref={cajaMensajesRef}>
         <ul className='mensajes'>
         {mensajes.slice().reverse().map((mensaje, index) => (
           <li className={`message ${mensaje.usuario !== nombreUsuario ? 'remitente' : 'emisor'}`} key={index}>
             <div className="content">
-              {mensaje.usuario} : {mensaje.mensaje}
+              {mensaje.mensaje}
             </div>
           </li>
         ))}
@@ -98,7 +115,7 @@ const Chat = ({
       </div>
       <div className='controlMensaje'>
         <input
-          className='mensaje'
+          className='escribirMensaje'
           type='text'
           name='mensaje'
           value={nuevoMensaje}
@@ -111,7 +128,7 @@ const Chat = ({
             }
           }}
         />
-        <button onClick={enviarMensaje} className='enviarButton'>
+        <button onClick={enviarMensaje} className='enviarMensaje'>
           Enviar
         </button>
       </div>

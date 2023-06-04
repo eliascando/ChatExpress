@@ -7,6 +7,7 @@ import { Chat } from './Chat';
 export const FriendList = ({ sesionActiva }) => {
   const [amigos, setAmigos] = useState([]);
   const [amigoElegido, setAmigoElegido] = useState(false);
+  const [cargando, setCargando] = useState(true);
   const [chat, setChat] = useState({});
   const { idUsuario, nombreUsuario } = sesionActiva;
 
@@ -15,8 +16,9 @@ export const FriendList = ({ sesionActiva }) => {
       try {
         const data = await obtenerListaAmigos(idUsuario);
         setAmigos(data);
+        setCargando(false);
       } catch (error) {
-        console.error('Error al obtener la lista de amigos:', error);
+        console.error(error);
       }
     };
 
@@ -30,37 +32,46 @@ export const FriendList = ({ sesionActiva }) => {
 
   return (
     <>
-      {!amigoElegido && (
-        <div className="contenedorAmigos">
-          {amigos.length > 0 ? (
-            <ul className="listaAmigos">
-              {amigos.map(amigo => (
-                <li className="amigo" key={amigo.id}>
-                  <div
-                    onClick={() => handleChatearAmigo(amigo)}
-                    className='chatearAmigo'
-                  >
-                    <img
-                      className='imagenAmigo'
-                      src={amigo.imagen === '' ? '../../public/user_default.svg' : amigo.imagen}
-                      alt="Imagen de perfil"
-                    />
-                    <div className='nombreAmigo'>{amigo.usuario}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+      {cargando ? (
+        <p className="loading">Cargando chats...</p>
+      ) : (
+        <>
+          {!amigoElegido ? (
+            <div className="contenedorAmigos">
+              {amigos.length > 0 ? (
+                <ul className="listaAmigos">
+                  {amigos.map((amigo) => (
+                    <li className="amigo" key={amigo.id}>
+                      <div
+                        onClick={() => handleChatearAmigo(amigo)}
+                        className="chatearAmigo"
+                      >
+                        <img
+                          className="imagenAmigo"
+                          src={
+                            amigo.imagen === ''
+                              ? '../../src/assets/user_default.svg'
+                              : amigo.imagen
+                          }
+                          alt="Imagen de perfil"
+                        />
+                        <div className="nombreAmigo">{amigo.usuario}</div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="emptyContent">No hay amigos que mostrar.</p>
+              )}
+            </div>
           ) : (
-              <p>No hay amigos que mostrar.</p>
-            )}
-        </div>
-      )}
-      {amigoElegido && (
-        <Chat
-          nombreUsuario={nombreUsuario}
-          amigo={chat}
-          setAmigoElegido={setAmigoElegido}
-        />
+            <Chat
+              nombreUsuario={nombreUsuario}
+              amigo={chat}
+              setAmigoElegido={setAmigoElegido}
+            />
+          )}
+        </>
       )}
     </>
   );

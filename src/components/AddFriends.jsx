@@ -45,8 +45,7 @@ export const AddFriends = ({ sesionActiva }) => {
 
   const handleEnviarSolicitud = (idReq) => {
     enviarSolicitud(idUsuario, idReq)
-      .then(data => {
-        console.log(data);
+      .then( () => {
         setNotificacionMessage('Solicitud enviada con éxito!');
         setShowModal(true);
 
@@ -68,12 +67,14 @@ export const AddFriends = ({ sesionActiva }) => {
         />
         <ul className="listaPersonas">
           {cargando ? (
-            <p>Cargando usuarios...</p>
+            <p className='loading'>Cargando usuarios...</p>
+          ) : usuariosFiltrados.length === 0 ? (
+            <p className='noUsuarios'>No hay usuarios para mostrar.</p>
           ) : (
             usuariosFiltrados.map(usuario => (
               <li className="persona" key={usuario.id}>
                 <div className='personaContent'>
-                  <img className='imagenPersona' src={usuario.imagen === '' ? '../../public/user_default.svg' : usuario.imagen} alt="Imagen de perfil" />
+                  <img className='imagenPersona' src={usuario.imagen === '' ? '../../src/assets/user_default.svg' : usuario.imagen} alt="Imagen de perfil" />
                   <div className="nombrePersona">{usuario.usuario}</div>
                 </div>
                 <button className='añadirAmigo' onClick={() => {handleEnviarSolicitud(usuario.id)}}>Añadir Amigo</button>
@@ -87,4 +88,5 @@ export const AddFriends = ({ sesionActiva }) => {
       )}
     </>
   );
+  
 };
