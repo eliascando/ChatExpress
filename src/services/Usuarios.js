@@ -2,7 +2,7 @@ import { API_URL, API_KEY } from '../services/constants';
 
 export const obtenerUsuarios = async (id) => {
   try {
-    const response = await fetch(API_URL + 'api/usuarios/listar/'+ id, {
+    const response = await fetch(API_URL + '/api/usuarios/listar/'+ id, {
       method: 'GET',
       headers: {
         'apiKey': API_KEY
