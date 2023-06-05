@@ -7,13 +7,13 @@ import '../css/Solicitudes.css';
 import { DEFAULT_USER } from '../services/constants';
 
 export const Solicitudes = ({ sesionActiva }) => {
-  const { idUsuario } = sesionActiva;
+  const { id } = sesionActiva;
   const [notificaciones, setNotificaciones] = useState([]);
   const [showNotificacion, setShowNotificacion] = useState(false);
   const [messageNotification, setMessageNotification] = useState('');
 
   useEffect(() => {
-    obtenerNotificaciones(idUsuario)
+    obtenerNotificaciones(id)
       .then(data => setNotificaciones(data))
       .catch(error => console.error(error));
   }, [showNotificacion]);
@@ -45,8 +45,8 @@ export const Solicitudes = ({ sesionActiva }) => {
                 <div className="nombrePersona">{notificacion.usuario}</div>
               </div>
               <div className='botones'>
-                <button className='aceptar' onClick={() => handleSolicitud(idUsuario, notificacion.id, 'ACCEPT')}>Aceptar</button>
-                <button className='rechazar' onClick={() => handleSolicitud(idUsuario, notificacion.id, 'DECLINE')}>Rechazar</button>
+                <button className='aceptar' onClick={() => handleSolicitud(id, notificacion.id, 'ACCEPT')}>Aceptar</button>
+                <button className='rechazar' onClick={() => handleSolicitud(id, notificacion.id, 'DECLINE')}>Rechazar</button>
               </div>
             </li>
           ))}

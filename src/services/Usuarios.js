@@ -104,5 +104,5 @@ export const atenderSolicitud = async (idResponse, idRequest, respuesta) => {
       console.error('Error al atender la solicitud:', error);
       throw error;
     }
-  };
+};
   

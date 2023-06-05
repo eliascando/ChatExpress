@@ -40,6 +40,7 @@
 
 .imagenPersona {
     width: 50px;
+    border-radius: 100px;
     padding: 5px;
     margin-right: 10px;
 }

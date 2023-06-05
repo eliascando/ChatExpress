@@ -3,10 +3,10 @@ import { ImageUploader } from "./ImageUploader";
 import '../css/Settings.css';
 import { BACK_ICON } from "../services/constants";
 
-export const Settings = ({setOpcionElegida}) => {
+export const Settings = ({setOpcionElegida, sesionActiva, setSesionActiva}) => {
   return (
     <div className='contenedorAjustes'>
-        <ImageUploader/>
+        <ImageUploader sesionActiva={sesionActiva} setSesionActiva={setSesionActiva}/>
         <div className="contenedorAjustesDatos">
             <button className="cambiarContraseña">Cambiar Contraseña</button>
             <button className="actualizarDatos">Actualizar Datos</button>

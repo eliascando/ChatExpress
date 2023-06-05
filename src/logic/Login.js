@@ -11,18 +11,17 @@ export const handleIniciarSesion = async({
 }) => {
     if (idUsuario && password) {
       try {
-        const nombre = (await ValidarUsuario({idUsuario, password}));
-        if (nombre !== '') {
+        const usuarioEncontrado = await ValidarUsuario({ idUsuario, password });
+        if (usuarioEncontrado.usuario !== null) {
           setTimeout(() => {
-            console.log(nombre);
-            setNombreUsuario(nombre);
+            setNombreUsuario(usuarioEncontrado.usuario);
             setSesionIniciada(true);
           }, 2000);
-          setMensajeValidacion('Inicio Exitoso, Bienvenido: ' + nombre);
-          setSesionActiva(idUsuario, nombre, password)
-          guardarSesionLocalStorage();
+          setMensajeValidacion('Inicio Exitoso, Bienvenido: ' + usuarioEncontrado.usuario);
+          console.log(usuarioEncontrado)
+          setSesionActiva(usuarioEncontrado);
+          guardarSesionLocalStorage(usuarioEncontrado);
         } else {
-          console.log('error al iniciar sesion');
           setMensajeValidacion('Credenciales incorrectas');
           setSesionIniciada(false);
         }
@@ -35,7 +34,7 @@ export const handleIniciarSesion = async({
         setMensajeValidacion('');
       }, 1500);
     }
-};
+  };
 
 export const handleRegistrarse = async ({
     idRegistro,

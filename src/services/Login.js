@@ -14,8 +14,12 @@ export const ValidarUsuario = async({
         },
         }
     );
-    console.log(response)
-    return await response.text();
+    if (response.ok) {
+        const usuarioEncontrado = await response.json();
+        return usuarioEncontrado;
+    } else {
+        throw new Error('Error al validar el usuario');
+    }
 }
 
 export const RegistrarUsuario = async({

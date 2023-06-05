@@ -13,12 +13,12 @@ export const AddFriends = ({ sesionActiva }) => {
   const [usuariosFiltrados, setUsuariosFiltrados] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [notificacionMessage, setNotificacionMessage] = useState('');
-  const {idUsuario} = sesionActiva;
+  const {id} = sesionActiva;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await obtenerUsuarios(idUsuario);
+        const data = await obtenerUsuarios(id);
         setUsuarios(data);
         setCargando(false);
       } catch (error) {
@@ -46,7 +46,7 @@ export const AddFriends = ({ sesionActiva }) => {
 
 
   const handleEnviarSolicitud = (idReq) => {
-    enviarSolicitud(idUsuario, idReq)
+    enviarSolicitud(id, idReq)
       .then( () => {
         setNotificacionMessage('Solicitud enviada con éxito!');
         setShowModal(true);

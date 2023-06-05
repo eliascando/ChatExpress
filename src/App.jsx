@@ -13,34 +13,19 @@ function App() {
   const [idRegistro, setIdRegistro] = useState('');
   const [nombreRegistro, setNombreRegistro] = useState('');
   const [passRegistro, setPassRegistro] = useState('');
-  const [sesionIniciada, setSesionIniciada] = useState(false);
+  const [sesionIniciada, setSesionIniciada] = useState(() => {
+    const sesionIniciadaGuardada = localStorage.getItem('sesionIniciada');
+    return sesionIniciadaGuardada ? true : false
+  });
   const [mensajeValidacion, setMensajeValidacion] = useState('');
-  const [sesionActiva, setSesionActiva] = useState({});
-
-  useEffect(() => {
-    const idUsuarioGuardado = localStorage.getItem('idUsuario');
-    const nombreUsuarioGuardado = localStorage.getItem('nombreUsuario');
+  const [sesionActiva, setSesionActiva] = useState(() => {
     const sesionActivaGuardada = localStorage.getItem('sesionActiva');
+    return sesionActivaGuardada ? JSON.parse(sesionActivaGuardada) : {}
+  });
 
-    if (idUsuarioGuardado && nombreUsuarioGuardado && sesionActivaGuardada) {
-      setIdUsuario(JSON.parse(idUsuarioGuardado));
-      setNombreUsuario(nombreUsuarioGuardado);
-      setSesionActiva(JSON.parse(sesionActivaGuardada));
-    }
-  }, []);
-  
-  useEffect(() => {
-    if(idUsuario && nombreUsuario){
-      setSesionActiva({idUsuario, nombreUsuario});
-      guardarSesionLocalStorage();
-      setSesionIniciada(true);
-    }
-  }, [nombreUsuario, idUsuario]);
-
-  const guardarSesionLocalStorage = () => {
-    localStorage.setItem('idUsuario', JSON.stringify(idUsuario));
-    localStorage.setItem('nombreUsuario', nombreUsuario);
-    localStorage.setItem('sesionActiva', JSON.stringify(sesionActiva));
+  const guardarSesionLocalStorage = (usuario) => {
+    localStorage.setItem('sesionActiva',JSON.stringify(usuario));
+    localStorage.setItem('sesionIniciada',true);
   };
   
   const handleRegistrarseTrue = () => {
@@ -89,6 +74,7 @@ function App() {
         <MainScreen
           handleSalir={handleSalir}
           sesionActiva={sesionActiva}
+          setSesionActiva={setSesionActiva}
         />
       )}
       {!registrarse && !sesionIniciada &&(

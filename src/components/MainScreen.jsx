@@ -8,7 +8,8 @@ import { Settings } from "./Settings"
 
 export const MainScreen = ({
     handleSalir,
-    sesionActiva
+    sesionActiva,
+    setSesionActiva
 }) => {
     const [opcionElegida, setOpcionElegida] = useState(1);
 
@@ -30,11 +31,11 @@ export const MainScreen = ({
             {opcionElegida == 1 &&(<FriendList sesionActiva={sesionActiva}/>)}
             {opcionElegida == 2 &&(<AddFriends sesionActiva={sesionActiva}/>)}
             {opcionElegida == 3 &&(<Solicitudes sesionActiva={sesionActiva}/>)}
-            {opcionElegida == 4 &&(<Settings setOpcionElegida={setOpcionElegida}/>)}
+            {opcionElegida == 4 &&(<Settings setOpcionElegida={setOpcionElegida} sesionActiva={sesionActiva} setSesionActiva={setSesionActiva}/>)}
         </div>
         <div className="barraInformacion">
-            <button className="configuracion" onClick={() => {ajustes()}}>Configuración</button>
-            <p className="nombreUsuario">{sesionActiva.nombreUsuario}</p>
+            <button className="configuracion" onClick={() => {ajustes()}}>Ajustes Perfil</button>
+            <p className="nombreUsuario">{sesionActiva.usuario}</p>
             <button className="cerrarSesion" onClick={()=>{cerrarSesion()}}>Cerrar Sesion</button>
         </div>
     </>

@@ -10,12 +10,12 @@ export const FriendList = ({ sesionActiva }) => {
   const [amigoElegido, setAmigoElegido] = useState(false);
   const [cargando, setCargando] = useState(true);
   const [chat, setChat] = useState({});
-  const { idUsuario, nombreUsuario } = sesionActiva;
+  const { id, usuario } = sesionActiva;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await obtenerListaAmigos(idUsuario);
+        const data = await obtenerListaAmigos(id);
         setAmigos(data);
         setCargando(false);
       } catch (error) {
@@ -24,7 +24,7 @@ export const FriendList = ({ sesionActiva }) => {
     };
 
     fetchData();
-  }, [idUsuario]);
+  }, [id]);
 
   const handleChatearAmigo = (amigo) => {
     setChat(amigo);
@@ -67,7 +67,7 @@ export const FriendList = ({ sesionActiva }) => {
             </div>
           ) : (
             <Chat
-              nombreUsuario={nombreUsuario}
+              nombreUsuario={usuario}
               amigo={chat}
               setAmigoElegido={setAmigoElegido}
             />
