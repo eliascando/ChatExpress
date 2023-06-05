@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import '../css/AddFriends.css';
 import { useEffect, useState } from 'react';
 import { obtenerUsuarios, enviarSolicitud } from '../services/Usuarios';
 import { Notificacion } from './Modal';
+import { DEFAULT_USER } from '../services/constants';
 
 export const AddFriends = ({ sesionActiva }) => {
   const [usuarios, setUsuarios] = useState([]);
@@ -74,7 +76,7 @@ export const AddFriends = ({ sesionActiva }) => {
             usuariosFiltrados.map(usuario => (
               <li className="persona" key={usuario.id}>
                 <div className='personaContent'>
-                  <img className='imagenPersona' src={usuario.imagen === '' ? '../../src/assets/user_default.svg' : usuario.imagen} alt="Imagen de perfil" />
+                  <img className='imagenPersona' src={usuario.imagen === '' ? DEFAULT_USER : usuario.imagen} alt="Imagen de perfil" />
                   <div className="nombrePersona">{usuario.usuario}</div>
                 </div>
                 <button className='añadirAmigo' onClick={() => {handleEnviarSolicitud(usuario.id)}}>Añadir Amigo</button>

@@ -1,13 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { obtenerNotificaciones, atenderSolicitud } from '../services/Usuarios';
 import { Notificacion } from './Modal';
 import '../css/Solicitudes.css';
+import { DEFAULT_USER } from '../services/constants';
 
 export const Solicitudes = ({ sesionActiva }) => {
   const { idUsuario } = sesionActiva;
   const [notificaciones, setNotificaciones] = useState([]);
   const [showNotificacion, setShowNotificacion] = useState(false);
+  const [messageNotification, setMessageNotification] = useState('');
 
   useEffect(() => {
     obtenerNotificaciones(idUsuario)
@@ -15,16 +18,12 @@ export const Solicitudes = ({ sesionActiva }) => {
       .catch(error => console.error(error));
   }, [showNotificacion]);
 
-  const handleAceptar = (idResponse, idRequest) => {
-    atenderSolicitud(idResponse, idRequest, 'ACCEPT')
-      .then(() => {
-        setShowNotificacion(true);
-      })
-      .catch(error => console.error(error));
-  };
-
-  const handleRechazar = (idResponse, idRequest) => {
-    atenderSolicitud(idResponse, idRequest, 'DECLINE')
+  const handleSolicitud = (idResponse, idRequest, response) => {
+    setMessageNotification(()=>{
+      if(response == 'ACCEPT') return 'Haz aceptado la solicitud!'
+      if(response == 'DECLINE')return 'Haz rechazado la solicitud!'
+    })
+    atenderSolicitud(idResponse, idRequest,response )
       .then(() => {
         setShowNotificacion(true);
       })
@@ -40,14 +39,14 @@ export const Solicitudes = ({ sesionActiva }) => {
               <div className='datosPersona'>
                 <img
                   className='imagenPersona'
-                  src={notificacion.imagen === '' ? '../assets/user_default.svg' : notificacion.imagen}
+                  src={notificacion.imagen === '' ? DEFAULT_USER : notificacion.imagen}
                   alt="Imagen de perfil"
                 />
                 <div className="nombrePersona">{notificacion.usuario}</div>
               </div>
               <div className='botones'>
-                <button className='aceptar' onClick={() => handleAceptar(idUsuario, notificacion.id)}>Aceptar</button>
-                <button className='rechazar' onClick={() => handleRechazar(idUsuario, notificacion.id)}>Rechazar</button>
+                <button className='aceptar' onClick={() => handleSolicitud(idUsuario, notificacion.id, 'ACCEPT')}>Aceptar</button>
+                <button className='rechazar' onClick={() => handleSolicitud(idUsuario, notificacion.id, 'DECLINE')}>Rechazar</button>
               </div>
             </li>
           ))}
@@ -56,7 +55,7 @@ export const Solicitudes = ({ sesionActiva }) => {
         <p className='emptyContent'>No hay solicitudes de amistad pendientes.</p>
       )}
       {showNotificacion && (
-        <Notificacion message="La solicitud ha sido procesada." />
+        <Notificacion message={messageNotification} />
       )}
     </div>
   );

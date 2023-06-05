@@ -30,7 +30,7 @@
     border-radius: 15px;
     width: 10%;
     height: 5%;
-    margin-left: 2%;
+    margin-left: 18%;
     background: white;
     color: black;
     padding: 5px;
@@ -39,6 +39,11 @@
 .cerrarSesion{
     background: rgb(235, 58, 58);
     height: 5%;
-    margin-left: 63%;
+    margin-left: 18%;
     margin-top: 0;
+}
+.configuracion{
+    background: rgb(92, 157, 241);;
+    margin-left: 4%;
+    height: 5%;
 }

@@ -112,10 +112,14 @@
   display: inline;
   float: right;
 }
-.botonVolver{
+.Volver{
   background: transparent;
   border-radius: 0;
 }
-.botonVolver:hover{
+.Volver:hover{
   background: rgba(0, 0, 0, 0.336);
+}
+.backIconChat{
+  width: 35px;
+  background-color: transparent;
 }

@@ -1,0 +1,42 @@
+.contenedorAjustes{
+    background: rgb(83, 102, 97);
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    border-radius: 15px;
+}
+.subirImagen{
+    background: white;
+}
+.contenedorAjustesDatos{
+    background:rgb(83, 102, 97);
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+}
+.cambiarContraseña{
+    width: 40%;
+    height: 20%;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+.actualizarDatos{
+    width: 40%;
+    height: 20%;
+    margin: 0 auto;
+    margin-top: 2%;
+}
+.botonVolver{
+    width: 15%;
+    margin: 0 auto;
+    margin-top: 1%;
+    padding: 10px;
+}
+.botonVolver:hover{
+    background: rgba(199, 186, 186, 0.452);
+}
+.backIcon{
+    width: 35px;
+    background-color: transparent;
+}

@@ -3,6 +3,7 @@ import '../css/FriendList.css';
 import { useEffect, useState } from 'react';
 import { obtenerListaAmigos } from '../services/Usuarios';
 import { Chat } from './Chat';
+import { DEFAULT_USER } from '../services/constants';
 
 export const FriendList = ({ sesionActiva }) => {
   const [amigos, setAmigos] = useState([]);
@@ -50,7 +51,7 @@ export const FriendList = ({ sesionActiva }) => {
                           className="imagenAmigo"
                           src={
                             amigo.imagen === ''
-                              ? '../../src/assets/user_default.svg'
+                              ? DEFAULT_USER
                               : amigo.imagen
                           }
                           alt="Imagen de perfil"

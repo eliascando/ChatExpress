@@ -4,6 +4,7 @@ import { AddFriends } from "./AddFriends"
 import { FriendList } from "./FriendList"
 import { Solicitudes } from "./Solicitudes"
 import '../css/MainScreen.css'
+import { Settings } from "./Settings"
 
 export const MainScreen = ({
     handleSalir,
@@ -13,6 +14,9 @@ export const MainScreen = ({
 
     const cerrarSesion = () => {
         handleSalir()
+    }
+    const ajustes = ()=> {
+        setOpcionElegida(4);
     }
 
   return (
@@ -26,8 +30,10 @@ export const MainScreen = ({
             {opcionElegida == 1 &&(<FriendList sesionActiva={sesionActiva}/>)}
             {opcionElegida == 2 &&(<AddFriends sesionActiva={sesionActiva}/>)}
             {opcionElegida == 3 &&(<Solicitudes sesionActiva={sesionActiva}/>)}
+            {opcionElegida == 4 &&(<Settings setOpcionElegida={setOpcionElegida}/>)}
         </div>
         <div className="barraInformacion">
+            <button className="configuracion" onClick={() => {ajustes()}}>Configuración</button>
             <p className="nombreUsuario">{sesionActiva.nombreUsuario}</p>
             <button className="cerrarSesion" onClick={()=>{cerrarSesion()}}>Cerrar Sesion</button>
         </div>

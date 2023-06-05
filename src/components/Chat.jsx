@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import '../css/Chat.css'
 import { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
-import { WEBSOCKET_URL } from "../services/constants";
+import { BACK_ICON, DEFAULT_USER, WEBSOCKET_URL } from "../services/constants";
 
 const socket = io(WEBSOCKET_URL);
 
@@ -69,7 +70,7 @@ const Chat = ({
     });
 
     if(imagen == ''){
-      setImagenPerfil('../../src/assets/user_default.svg')
+      setImagenPerfil(DEFAULT_USER)
     }else{
       setImagenPerfil(imagen)
     }
@@ -95,8 +96,8 @@ const Chat = ({
   return (
     <div className='contenedorChat'>
       <div className='informacionUsuario'>
-        <button className='botonVolver' onClick={()=>{desconectarse()}}>
-          <img src='../../src/assets/back-icon.svg'/>
+        <button className='Volver' onClick={()=>{desconectarse()}}>
+          <img className='backIconChat' src={BACK_ICON}/>
         </button>
         <img className='imagenAmigo' src={imagenPerfil}/>
         <h1 className='nombreAmigo'>{usuario}</h1>

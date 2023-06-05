@@ -36,7 +36,9 @@
 .imagenAmigo {
     width: 50px;
     padding: 5px;
+    border-radius: 100%;
     margin-right: 10px;
+    background: transparent;
 }
 
 .nombreAmigo {
