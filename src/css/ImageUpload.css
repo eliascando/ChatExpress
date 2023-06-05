@@ -23,13 +23,13 @@
     width: 100%; 
     height: 100%;
     border-radius: 100px;
+    object-fit: contain;
 }
 .botonSubir{
     display: none;
     width: 100%;
 }
 .cambiarImagen{
-    width: 20%;
     border-radius: 15px;
     margin: 0 auto;
 }
@@ -42,5 +42,6 @@
     padding-top: 10px;
     padding: 10px;
     border-radius: 15px;
-    background: rgb(105, 85, 85);
+    background: rgb(92, 157, 241);
+    font-weight: bold;
 }
