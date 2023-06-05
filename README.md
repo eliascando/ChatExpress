@@ -3,7 +3,7 @@ Aplicación Web de Chat en tiempo real con React y Node.js utilizando APIREST Fu
 
 La aplicación se basa en la interacción entre usuarios pudiendo enviarse mensajes en tiempo real y enviar solicitudes a otras personas
 
-Desarrollado con React y Vite, utiliza la libreria de [socket.io-client](https://socket.io/docs/v4/client-api/) para el cliente manejando la funcionalidad de chat en tiempo real conectandose a un servidor para atender la solicitud con otros clientes y servicio web propio APIRest Full desarrollado en .NET con C# para la funcionalidad de inicio de sesion, registro de usuario, envio y gestión de solicitudes, y poder guardar su foto de perfil, esta ultima apoyandose con la api de [imgbb](https://es.imgbb.com/) para el guardado de imagenes en la nube
+Desarrollado con React y Vite, utiliza la libreria de [socket.io-client](https://socket.io/docs/v4/client-api/) para el cliente manejando la funcionalidad de chat en tiempo real conectandose a un servidor para atender la solicitud con otros clientes y servicio web propio APIRest Full desarrollado en .NET con C# para la funcionalidad de inicio de sesion, registro de usuario, envio y gestión de solicitudes, y poder guardar su foto de perfil, esta ultima apoyandose con la api de [imgbb](https://api.imgbb.com/) para el guardado de imagenes en la nube
 
 ---
 
